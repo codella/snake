@@ -1,0 +1,11 @@
+.Tile {
+  padding: 1px;
+}
+
+.Tile--empty {
+  background-color: #212121;
+}
+
+.Tile--snake {
+  background-color: #00e676;
+}
