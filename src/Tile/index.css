@@ -9,3 +9,7 @@
 .Tile--snake {
   background-color: #00e676;
 }
+
+.Tile--food {
+  background-color: #ff3d00;
+}
