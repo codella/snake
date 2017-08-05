@@ -1,0 +1,22 @@
+.Board {
+  min-height: 100%;
+  flex: 1;
+  border-style: solid;
+  border-width: 1px;
+
+  display: grid;
+  grid-template-columns: repeat(30, 1fr);
+  grid-template-rows: repeat(30, 1fr);
+}
+
+.Tile {
+  padding: 1px;
+}
+
+.Tile--empty {
+  background-color: #212121;
+}
+
+.Tile--snake {
+  background-color: #00e676;
+}
