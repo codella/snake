@@ -12,13 +12,14 @@ export default function Board(props) {
   const tiles = makeMatrix(30, 30, TILE_TYPES.empty);
   
   props.snake.forEach(({row, col}) => tiles[row][col] = TILE_TYPES.snake);
-  props.food.forEach(({row, col}) => tiles[row][col] = TILE_TYPES.food);
+  tiles[props.food.row][props.food.col] = TILE_TYPES.food;
 
   return (
     <div className="Board">
-      {tiles.map((row) => {
-        return row.map((tileType) => {
-          return <Tile type={tileType} />;
+      {tiles.map((row, rowIndex) => {
+        return row.map((tileType, columnIndex) => {
+          const key = `${rowIndex}-${columnIndex}-${tileType.toString()}`;
+          return <Tile key={key} type={tileType} />;
         })
       })}
     </div>
@@ -32,5 +33,5 @@ const CoordType = PropTypes.shape({
 
 Board.propTypes = {
   snake: PropTypes.arrayOf(CoordType),
-  food: PropTypes.arrayOf(CoordType)
+  food: CoordType
 };
