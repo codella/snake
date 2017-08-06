@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Tile, { TILE_TYPES } from '../Tile';
 import './index.css';
@@ -22,4 +23,14 @@ export default function Board(props) {
       })}
     </div>
   );
+};
+
+const CoordType = PropTypes.shape({
+  row: PropTypes.number,
+  col: PropTypes.number
+});
+
+Board.propTypes = {
+  snake: PropTypes.arrayOf(CoordType),
+  food: PropTypes.arrayOf(CoordType)
 };

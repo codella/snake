@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import './index.css';
@@ -13,10 +14,14 @@ const TILES_TO_CLASSNAME = {
   [TILE_TYPES.empty]: "Tile--empty",
   [TILE_TYPES.snake]: "Tile--snake",
   [TILE_TYPES.food]: "Tile--food",
-}
+};
 
 export default function Tile(props) {
   const tileClassNames = classnames("Tile", TILES_TO_CLASSNAME[props.type]);
 
   return <div className={tileClassNames} />;
 }
+
+Tile.protoTypes = {
+  type: PropTypes.string.isRequired
+};
