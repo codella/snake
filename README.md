@@ -1,3 +1,5 @@
+:construction: Work In Progress :construction:
+
 # Snake
 
 This is a really simple stand-alone implementation of Snake for the browser, using a modern front-end stack.
