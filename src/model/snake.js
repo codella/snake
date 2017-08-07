@@ -5,6 +5,10 @@ const directionToNextHeadCalculator = {
   right: ({row, col}, {rows, cols}) => ({ row: row, col: (col + 1) % cols })
 };
 
+function deriveNextHead({currentHead, direction, matrixSize}) {
+  return directionToNextHeadCalculator[direction](currentHead, matrixSize);
+}
+
 function isCoordInArray({row, col}, array) {
   array.reduce((isContained, { row: rowInArray, col: colInArray }) => {
     if (isContained) {
@@ -15,7 +19,7 @@ function isCoordInArray({row, col}, array) {
   }, false);
 }
 
-export function createFoodFromSnake(snake, {rows, cols}) {
+function createFoodFromSnake(snake, {rows, cols}) {
   const freeTiles = [];
   
   for (let row = 0; row < rows; row++) {
@@ -34,34 +38,34 @@ function areCoordEqual({row: firstRow, col: firstCol}, {row: secondRow, col: sec
   return firstRow === secondRow && firstCol === secondCol;
 }
 
-export function tickHandler() {
-  const nextSnake = [...this.state.snake];
-  const currentHead = this.state.snake[0];
-  const nextHeadCalculator = directionToNextHeadCalculator[this.state.direction];
-  const nextHead = nextHeadCalculator(currentHead, {rows: 30, cols: 30});
-  nextSnake.unshift(nextHead);
+export function createInitialBoardState(matrixSize) {
+  const snake = [
+    {row: 15, col: 15},
+    {row: 15, col: 14}
+  ];
 
-  const nextState = {snake: nextSnake};
-  if (! areCoordEqual(this.state.food, nextHead)) {
-    nextSnake.pop();
-  } else {
-    nextState.food = createFoodFromSnake(nextSnake, {rows: 30, cols: 30});
-  }
+  const food = createFoodFromSnake(snake, matrixSize);
 
-  this.setState(nextState);
+  return {snake, food};
 }
 
-const KEY_TO_DIRECTION = {
-  ArrowUp: "up",
-  ArrowDown: "down",
-  ArrowLeft: 'left',
-  ArrowRight: "right"
-};
+export function deriveNextBoardState({state, direction, matrixSize}) {
+  const nextSnake = [...state.snake];
+  const currentHead = state.snake[0];
+  const nextHead = deriveNextHead({
+    currentHead: currentHead,
+    direction: direction,
+    matrixSize: matrixSize
+  });
 
-export function keyDownHandler(event) {
-  const direction = KEY_TO_DIRECTION[event.key];
+  nextSnake.unshift(nextHead);
 
-  if (direction !== undefined) {
-    this.setState({ direction: direction });
+  const nextState = {snake: nextSnake, food: state.food};
+  if (! areCoordEqual(state.food, nextHead)) {
+    nextSnake.pop();
+  } else {
+    nextState.food = createFoodFromSnake(nextSnake, matrixSize);
   }
+
+  return nextState;
 }
