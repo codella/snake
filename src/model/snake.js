@@ -1,3 +1,8 @@
+import {
+  isCoordInArray,
+  areCoordsEqual
+} from './coords';
+
 const directionToNextHeadCalculator = {
   up: ({row, col}, {rows, cols}) => ({ row: (row || rows) - 1, col: col }),
   down: ({row, col}, {rows, cols}) => ({ row: (row + 1) % rows, col: col }),
@@ -7,16 +12,6 @@ const directionToNextHeadCalculator = {
 
 function deriveNextHead({currentHead, direction, matrixSize}) {
   return directionToNextHeadCalculator[direction](currentHead, matrixSize);
-}
-
-function isCoordInArray({row, col}, array) {
-  array.reduce((isContained, { row: rowInArray, col: colInArray }) => {
-    if (isContained) {
-      return true;
-    }
-
-    return row === rowInArray && col === colInArray
-  }, false);
 }
 
 function createFoodFromSnake(snake, {rows, cols}) {
@@ -32,10 +27,6 @@ function createFoodFromSnake(snake, {rows, cols}) {
 
   const randomIndex = Math.floor(Math.random() * freeTiles.length)
   return freeTiles[randomIndex];
-}
-
-function areCoordEqual({row: firstRow, col: firstCol}, {row: secondRow, col: secondCol}) {
-  return firstRow === secondRow && firstCol === secondCol;
 }
 
 export function createInitialBoardState(matrixSize) {
@@ -61,7 +52,7 @@ export function deriveNextBoardState({state, direction, matrixSize}) {
   nextSnake.unshift(nextHead);
 
   const nextState = {snake: nextSnake, food: state.food};
-  if (! areCoordEqual(state.food, nextHead)) {
+  if (! areCoordsEqual(state.food, nextHead)) {
     nextSnake.pop();
   } else {
     nextState.food = createFoodFromSnake(nextSnake, matrixSize);
