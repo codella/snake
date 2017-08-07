@@ -11,5 +11,7 @@
 }
 
 .Tile--food {
-  background-color: #ff3d00;
+  background-color: #212121;
+  background-image: url('./apple.png');
+  background-size: 100%;
 }
