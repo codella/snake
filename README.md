@@ -1,10 +1,10 @@
 # Snake
 
-This is stand-alone implementation of Snake for the browser, using a modern front-end stack:
+This is a really simple stand-alone implementation of Snake for the browser, using a modern front-end stack.
 
-![alt text](./footage.gif "Logo Title Text 1")
+![footage](./footage.gif "In-game footage")
 
-## How To
+See? Very, very simple.
 
 As this project has been created using `create-react-app`, it's sufficient to clone this repo, run `yarn install` to install it's dependencies, and finally run `yarn start` to automatially open it in your favourite web browser. If you want to run the tests, simply execute `yarn tests`.
 
