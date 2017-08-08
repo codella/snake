@@ -7,8 +7,3 @@ html, body {
   align-items: center;
   justify-content: center;
 }
-
-#root {
-  width: 400px;
-  height: 400px;
-}

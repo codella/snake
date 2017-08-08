@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
+import Score from '../Score';
 import Board from '../Board';
+
 import {
   createInitialBoardState,
   deriveNextBoardState
@@ -20,6 +22,7 @@ export default class App extends Component {
     super(props);
 
     this.state = {
+      score: 0,
       direction: "right",
       board: createInitialBoardState(MATRIX_SIZE)
     };
@@ -36,7 +39,11 @@ export default class App extends Component {
       matrixSize: MATRIX_SIZE
     });
 
-    this.setState({ board: nextBoardState });
+    const nextScore = nextBoardState.food !== this.state.board.food ?
+      this.state.score + 1 :
+      this.state.score;
+
+    this.setState({ board: nextBoardState, score: nextScore });
   }
 
   keyDownHandler(event) {
@@ -56,9 +63,14 @@ export default class App extends Component {
   }
 
   render() {
-    return <Board
-      snake={this.state.board.snake}
-      food={this.state.board.food}
-    />;
+    return (
+      <div>
+        <Score score={this.state.score} />
+        <Board
+          snake={this.state.board.snake}
+          food={this.state.board.food}
+        />
+      </div>
+    );
   }
 }

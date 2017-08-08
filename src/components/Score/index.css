@@ -1,0 +1,10 @@
+@font-face {
+  font-family: game;
+  src: url('./game.ttf');
+}
+
+.Score {
+  font-family: game;
+  flex: 1;
+  margin-bottom: 10px;
+}
