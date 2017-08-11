@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Score from '../Score';
 import Board from '../Board';
+import StartPane from '../StartPane';
 
 import {
   createInitialBoardState,
@@ -22,13 +23,14 @@ export default class App extends Component {
     super(props);
 
     this.state = {
+      started: false,
       score: 0,
+      speed: 200,
       direction: "right",
       board: createInitialBoardState(MATRIX_SIZE)
     };
 
-    setInterval(this.tickHandler.bind(this), 150);
-
+    this.tickHandler = this.tickHandler.bind(this);
     this.keyDownHandler = this.keyDownHandler.bind(this);
   }
 
@@ -39,18 +41,32 @@ export default class App extends Component {
       matrixSize: MATRIX_SIZE
     });
 
-    const nextScore = nextBoardState.food !== this.state.board.food ?
-      this.state.score + 1 :
-      this.state.score;
+    let nextScore = this.state.score;
+    let nextSpeed = this.state.speed;
+    if (nextBoardState.food !== this.state.board.food) {
+      nextScore++;
+      nextSpeed = Math.max(nextSpeed - 2, 50);
+    }
 
-    this.setState({ board: nextBoardState, score: nextScore });
+    this.setState({ board: nextBoardState, score: nextScore, speed: nextSpeed }, () => {
+      clearInterval(this.state.tickerId);
+      const tickerId = setInterval(this.tickHandler, this.state.speed);
+      this.setState({tickerId});
+    });
   }
 
   keyDownHandler(event) {
-    const direction = KEY_TO_DIRECTION[event.key];
+    if (! this.state.started) {
+      this.setState({ started: true }, () => {
+        const tickerId = setInterval(this.tickHandler, this.state.speed);
+        this.setState({ tickerId });
+      });
+    } else {
+      const direction = KEY_TO_DIRECTION[event.key];
 
-    if (direction !== undefined) {
-      this.setState({ direction: direction });
+      if (direction !== undefined) {
+        this.setState({ direction: direction });
+      }
     }
   }
 
@@ -63,13 +79,14 @@ export default class App extends Component {
   }
 
   render() {
+    const pane = this.state.started ?
+      <Board snake={this.state.board.snake} food={this.state.board.food} /> :
+      <StartPane />;
+
     return (
       <div>
         <Score score={this.state.score} />
-        <Board
-          snake={this.state.board.snake}
-          food={this.state.board.food}
-        />
+        {pane}
       </div>
     );
   }

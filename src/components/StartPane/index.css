@@ -1,0 +1,17 @@
+@font-face {
+  font-family: game;
+  src: url('./game.ttf');
+}
+
+.StartPane {
+  font-family: game;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 400px;
+
+  width: 400px;
+  height: 400px;
+
+  background-color: #212121;
+}

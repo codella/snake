@@ -6,5 +6,6 @@
 .Score {
   font-family: game;
   flex: 1;
+  color: #F57F17;
   margin-bottom: 10px;
 }
